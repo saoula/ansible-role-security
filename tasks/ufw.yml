@@ -1,0 +1,20 @@
+--- 
+- name: install ufw package
+  apt: 
+    pkg: ufw
+    state: latest
+
+- name: set logging
+  ufw: 
+    logging: "{{ ufw_logging }}"
+
+- name: allow authorized ports
+  ufw: 
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items: port_allowed
+
+- name: enable ufw
+  ufw: 
+    state: enabled
